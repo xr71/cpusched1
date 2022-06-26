@@ -3,6 +3,8 @@
 #include <stdbool.h>
 
 
+struct PCB null_pcb = { 0,0,0,0,0,0 };
+
 bool isNullProcess(struct PCB process)
 {
 	if (process.process_id == 0 &&
@@ -71,19 +73,28 @@ struct PCB handle_process_completion_pp(
 	int* queue_cnt, 
 	int timestamp)
 {
-
+	return null_pcb;
 }
 
 
-struct PCB handle_process_arrival_srtp(struct PCB ready_queue[QUEUEMAX], int* queue_cnt, struct PCB current_process, struct PCB new_process, int time_stamp)
+struct PCB handle_process_arrival_srtp(
+	struct PCB ready_queue[QUEUEMAX], 
+	int* queue_cnt, 
+	struct PCB current_process, 
+	struct PCB new_process, 
+	int time_stamp)
 {
-
+	return new_process;
 }
 
 
-struct PCB handle_process_completion_srtp(struct PCB ready_queue[QUEUEMAX], int* queue_cnt, int timestamp)
+struct PCB handle_process_completion_srtp(
+	struct PCB ready_queue[QUEUEMAX], 
+	int* queue_cnt, 
+	int timestamp)
 {
-
+	
+	return null_pcb;
 }
 
 
@@ -95,11 +106,15 @@ struct PCB handle_process_arrival_rr(
 	int timestamp, 
 	int time_quantum)
 {
-
+	return new_process;
 }
 
 
-struct PCB handle_process_completion_rr(struct PCB ready_queue[QUEUEMAX], int* queue_cnt, int timestamp, int time_quantum)
+struct PCB handle_process_completion_rr(
+	struct PCB ready_queue[QUEUEMAX], 
+	int* queue_cnt, 
+	int timestamp, 
+	int time_quantum)
 {
-
+	return null_pcb;
 }
