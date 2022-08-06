@@ -39,7 +39,30 @@ void test_case1()
 }
 
 
+void test_case2() 
+{
+	struct PCB ready_queue[QUEUEMAX];
+
+	int queue_cnt = 3;
+	int timestamp = 2;
+
+	memset(ready_queue, 0, sizeof(ready_queue[QUEUEMAX]));
+
+	struct PCB process = { 1,1,4,0,0,4,23 };
+	ready_queue[0] = process;
+	struct PCB process1 = { 2,1,4,0,0,4,22 };
+	ready_queue[1] = process1;
+	struct PCB process2 = { 3,1,4,0,0,4,24 };
+	ready_queue[2] = process2;
+
+	struct PCB res;
+	res = handle_process_completion_pp(ready_queue, &queue_cnt, timestamp);
+
+	print_process(res);
+}
+
 
 int main(void) {
-	test_case1();
+	// test_case1();
+	// test_case2();
 }

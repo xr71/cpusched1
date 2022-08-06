@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="cpu.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="memory.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="oslabs.h" />
