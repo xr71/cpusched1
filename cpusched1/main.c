@@ -61,6 +61,75 @@ void test_case2()
 	print_process(res);
 }
 
+void test_free_mem_block() 
+{
+
+	struct MEMORY_BLOCK map[10];
+	struct MEMORY_BLOCK map0 = {0,7, 8, 12};
+	struct MEMORY_BLOCK map1 = {8,15,8,0};
+	struct MEMORY_BLOCK map2 = {16,23,8,13};
+	struct MEMORY_BLOCK map3 = {24,27,4,0};
+	struct MEMORY_BLOCK map4 = {28,29,2,11};
+	map[0] = map0;
+	map[1] = map1;
+	map[2] = map2;
+	map[3] = map3;
+	map[4] = map4;
+	int mapcnt = 5;
+
+	release_memory(map[2], map, &mapcnt);
+
+	for (int i = 0; i < mapcnt; i++)
+	{
+		printf("%d %d %d %d \n",
+			map[i].start_address,
+			map[i].end_address,
+			map[i].process_id,
+			map[i].segment_size);
+	}
+}
+
+
+void test_next_fit_block()
+{
+	struct MEMORY_BLOCK map[10];
+	struct MEMORY_BLOCK map0 = {0,1023,1024,0};
+	map[0] = map0;
+	int mapcnt = 1;
+
+	/*
+	Test Failed: 'Expecting test 2 Memory Map Count value of 4 and received 5 
+	You returned too many memory bloks.  Here is your memory map 
+	[start_address: 0 end_address: 19 segment_size: 20 process_id: 10]
+	[start_address: 20 end_address: 39 segment_size: 20 process_id: 40]
+	[start_address: 40 end_address: 39 segment_size: 0 process_id: 0]
+	[start_address: 50 end_address: 1023 segment_size: 974 process_id: 30]
+	[start_address: 0 end_address: 0 segment_size: -1976127328 process_id: 32767]' != 'Passed All Tests'
+	*/
+
+
+	/*
+	Test Failed: 'Missing Block in memory_map for test 2 [20,39,20,40].  
+	Here is the memory map. 
+	[start_address: 0 end_address: 19 segment_size: 20 process_id: 10]
+	[start_address: 20 end_address: 39 segment_size: 20 process_id: 0]
+	[start_address: 40 end_address: 49 segment_size: 10 process_id: 20]
+	[start_address: 50 end_address: 1023 segment_size: 974 process_id: 30]' != 'Passed All Tests'
+	*/
+
+	next_fit_allocate(10, map, &mapcnt, 32, 0);
+
+	for (int i = 0; i < mapcnt; i++)
+	{
+		printf("%d %d %d %d %d \n",
+			map[i].start_address,
+			map[i].end_address,
+			map[i].process_id,
+			map[i].segment_size,
+			i);
+	}
+
+}
 
 int main(void) {
 	// test_case1();
@@ -75,4 +144,17 @@ int main(void) {
 	[start_address: 50 end_address: 1023 segment_size: 974 process_id: 30]
 	[start_address: 50 end_address: 39 segment_size: -10 process_id: 0]' != 'Passed All Tests'
 	*/
+
+	// test_free_mem_block();
+
+	/*
+	Missing Block in memory_map for test 2 [0,19,20,10].  
+	Here is the memory map. 
+	[start_address: 0 end_address: 19 segment_size: 20 process_id: 40]
+	[start_address: 20 end_address: 39 segment_size: 20 process_id: 0]
+	[start_address: 40 end_address: 49 segment_size: 10 process_id: 20]
+	[start_address: 50 end_address: 1023 segment_size: 974 process_id: 30]' != 'Passed All Tests'
+	*/
+
+	test_next_fit_block();
 }
