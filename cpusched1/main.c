@@ -65,4 +65,14 @@ void test_case2()
 int main(void) {
 	// test_case1();
 	// test_case2();
+
+	/*
+	Test Failed: 'Expecting test 3 Memory Map Count value of 4 and received 5 You 
+	returned too many memory bloks.  Here is your memory map 
+	[start_address: 0 end_address: 19 segment_size: 20 process_id: 10]
+	[start_address: 20 end_address: 49 segment_size: 30 process_id: 40]
+	[start_address: 40 end_address: 49 segment_size: 10 process_id: 20]
+	[start_address: 50 end_address: 1023 segment_size: 974 process_id: 30]
+	[start_address: 50 end_address: 39 segment_size: -10 process_id: 0]' != 'Passed All Tests'
+	*/
 }
