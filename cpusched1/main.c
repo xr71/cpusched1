@@ -131,6 +131,23 @@ void test_next_fit_block()
 
 }
 
+
+void test_handle_rc_sstf()
+{
+	struct RCB request_queue[QUEUEMAX];
+	struct RCB r1 = { 1, 72, 45, 45, 1 };
+	struct RCB r2 = { 2, 71, 47, 47, 2 };
+	struct RCB r3 = { 3, 73, 43, 43, 3 };
+	request_queue[0] = r1;
+	request_queue[1] = r2;
+	request_queue[2] = r3;
+	int queue_cnt = 3;
+	int current_cylinder = 48;
+
+	handle_request_completion_sstf(request_queue, &queue_cnt, current_cylinder);
+
+}
+
 int main(void) {
 	// test_case1();
 	// test_case2();
@@ -156,5 +173,7 @@ int main(void) {
 	[start_address: 50 end_address: 1023 segment_size: 974 process_id: 30]' != 'Passed All Tests'
 	*/
 
-	test_next_fit_block();
+	// test_next_fit_block();
+
+	test_handle_rc_sstf();
 }

@@ -20,8 +20,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cpu.c" />
+    <ClCompile Include="disk.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="memory.c" />
+    <ClCompile Include="virtual.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="oslabs.h" />
