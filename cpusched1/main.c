@@ -148,6 +148,66 @@ void test_handle_rc_sstf()
 
 }
 
+
+void test_ppf_fifo()
+{
+	struct PTE zero = {0,-1,-1,-1,-1};
+    struct PTE one = {0,-1,-1,-1,-1};
+    struct PTE two = {1,10,3,3,1};
+    struct PTE three = {0,-1,-1,-1,-1};
+    struct PTE four = {0,-1,-1,-1,-1};
+    struct PTE five = {1,20,2,4,2};
+    struct PTE six = {0,-1,-1,-1,-1};
+    struct PTE seven = {1,30,1,1,1};
+    struct PTE page_table[] = {zero, one, two, three, four, five, six, seven};
+
+    // int reference_string[] = {0, 3, 2, 6, 3, 4, 5, 2, 6, 4, 5};
+    // int reference_cnt = 11;
+    int table_cnt = 8;
+    int page_number = 0;
+    int frame_pool[POOLMAX];
+    int frame_cnt = 0;
+
+    int frame_output = process_page_access_fifo(
+		page_table, &table_cnt, 0, frame_pool, &frame_cnt, 12);
+
+    printf("The page table contains the following.\n");
+    for (int i = 0; i < table_cnt; i++)
+    {
+        printf("Page #: %d IV: %d FN: %d ATS: %d LATS: %d RC: %d\n",i, page_table[i].is_valid, page_table[i].frame_number, page_table[i].arrival_timestamp, page_table[i].last_access_timestamp, page_table[i].reference_count);
+    }
+	printf("Frame %i\n", frame_output);
+
+
+	/*
+	Test Failed: 'Missing entry in page table for test 1 [0,-1,-1,-1,-1] page number 7.  
+	Here is the page table. 
+	[is_valid:  1 frame_number: 30 arrival_timestamp: 12 last_access_timestamp: 12 reference_count: 1]
+	[is_valid:  0 frame_number: -1 arrival_timestamp: -1 last_access_timestamp: -1 reference_count: -1]
+	[is_valid:  1 frame_number: 10 arrival_timestamp: 3 last_access_timestamp: 3 reference_count: 1]
+	[is_valid:  0 frame_number: -1 arrival_timestamp: -1 last_access_timestamp: -1 reference_count: -1]
+	[is_valid:  0 frame_number: -1 arrival_timestamp: -1 last_access_timestamp: -1 reference_count: -1]
+	[is_valid:  1 frame_number: 20 arrival_timestamp: 2 last_access_timestamp: 4 reference_count: 2]
+	[is_valid:  0 frame_number: -1 arrival_timestamp: -1 last_access_timestamp: -1 reference_count: -1]
+	[is_valid:  0 frame_number: -1 arrival_timestamp: 0 last_access_timestamp: 0 reference_count: 0]' != 'Passed All Tests'
+	*/
+
+
+	/*
+	Test Failed: 'Missing entry in page table for test 3 [1,10,15,15,1] page number 3.  
+	Here is the page table. 
+	[is_valid:  0 frame_number: -1 arrival_timestamp: -1 last_access_timestamp: -1 reference_count: -1]
+	[is_valid:  0 frame_number: -1 arrival_timestamp: -1 last_access_timestamp: -1 reference_count: -1]
+	[is_valid:  0 frame_number: -1 arrival_timestamp: -1 last_access_timestamp: -1 reference_count: -1]
+	[is_valid:  1 frame_number: 10 arrival_timestamp: -1 last_access_timestamp: 15 reference_count: 1]
+	[is_valid:  0 frame_number: -1 arrival_timestamp: -1 last_access_timestamp: -1 reference_count: -1]
+	[is_valid:  1 frame_number: 20 arrival_timestamp: 2 last_access_timestamp: 4 reference_count: 2]
+	[is_valid:  0 frame_number: -1 arrival_timestamp: -1 last_access_timestamp: -1 reference_count: -1]
+	[is_valid:  1 frame_number: 30 arrival_timestamp: 1 last_access_timestamp: 1 reference_count: 1]' != 'Passed All Tests'
+
+	*/
+}
+
 int main(void) {
 	// test_case1();
 	// test_case2();
@@ -175,5 +235,5 @@ int main(void) {
 
 	// test_next_fit_block();
 
-	test_handle_rc_sstf();
+	test_ppf_fifo();
 }
