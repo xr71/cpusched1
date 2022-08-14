@@ -208,6 +208,45 @@ void test_ppf_fifo()
 	*/
 }
 
+
+void test_cpf_fifo()
+{
+
+	struct PTE zero = {0,-1,-1,-1,-1};
+	struct PTE one = {0,-1,-1,-1,-1};
+	struct PTE two = {0,-1,-1,-1,-1};
+	struct PTE three = {0,-1,-1,-1,-1};
+	struct PTE four = {0,-1,-1,-1,-1};
+	struct PTE five = {0,-1,-1,-1,-1};
+	struct PTE six = {0,-1,-1,-1,-1};
+	struct PTE seven = {0,-1,-1,-1,-1};
+    struct PTE page_table[] = {zero, one, two, three, four, five, six, seven};
+
+    // int reference_string[] = {0, 3, 2, 6, 3, 4, 5, 2, 6, 4, 5};
+    // int reference_cnt = 11;
+    int table_cnt = 8;
+    int page_number = 0;
+    int frame_pool[POOLMAX];
+	frame_pool[0] = 0;
+	frame_pool[1] = 1;
+	frame_pool[2] = 2;
+
+    int frame_cnt = 3;
+	int reference_string[11] = { 0,3,2,6,3,4,5,2,4,5,6 };
+	int reference_cnt = 11;
+
+	int numframes = count_page_faults_fifo(
+		page_table, table_cnt, reference_string, reference_cnt, frame_pool, frame_cnt
+	);
+
+    printf("The page table contains the following.\n");
+    for (int i = 0; i < table_cnt; i++)
+    {
+        printf("Page #: %d IV: %d FN: %d ATS: %d LATS: %d RC: %d\n",i, page_table[i].is_valid, page_table[i].frame_number, page_table[i].arrival_timestamp, page_table[i].last_access_timestamp, page_table[i].reference_count);
+    }
+	printf("Frames %i\n", numframes);
+}
+
 int main(void) {
 	// test_case1();
 	// test_case2();
@@ -235,5 +274,7 @@ int main(void) {
 
 	// test_next_fit_block();
 
-	test_ppf_fifo();
+	// test_ppf_fifo();
+
+	test_cpf_fifo();
 }
